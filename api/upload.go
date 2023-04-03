@@ -100,7 +100,7 @@ func NewUpload(options *UploadOptions, credentials auth.CookieCredentials) (*Upl
 func getImageIDFromURL(URL string) (string, error) {
 	matches := RegexUploadedImageURL.FindStringSubmatch(URL)
 	if len(matches) != 2 {
-		return "", fmt.Errorf("url doesn't contain the image id")
+		return "", fmt.Errorf("url:\"%s\" doesn't contain the image id", URL)
 	}
 	return matches[1], nil
 }
