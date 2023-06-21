@@ -9,8 +9,6 @@ import (
 	"net/http"
 	"strings"
 
-	"log"
-
 	"github.com/garfieldkwong/gphotosuploader/auth"
 	"golang.org/x/net/html"
 )
