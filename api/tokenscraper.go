@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"strings"
 
+	"log"
+
 	"github.com/garfieldkwong/gphotosuploader/auth"
 	"golang.org/x/net/html"
 )
@@ -61,16 +63,27 @@ func findScript(page *http.Response) (string, error) {
 	t := html.NewTokenizer(page.Body)
 	for {
 		tt := t.Next()
+                curToken := t.Token()                
 
 		switch {
 		case tt == html.ErrorToken: // End of html document
 			return "", errors.New("can't find the script tag with the token in the response")
 
-		case tt == html.StartTagToken && t.Token().Data == "script": // We need the first script tag
-			t.Next()
+		case tt == html.StartTagToken && curToken.Data == "script": // We need the first script tag
+                        found := false
+                        for _, attr := range curToken.Attr {
+                                if (attr.Key == "data-id" && attr.Val == "_gd") {
+                                	found = true
+                                        break
+				}
+				log.Println("bbbb", attr)                            
+			}
+                        if (found) {
+				t.Next()
 
-			// Get the script string
-			return t.Token().Data, nil
+				// Get the script string
+				return t.Token().Data, nil
+			}
 		}
 	}
 }
@@ -78,11 +91,6 @@ func findScript(page *http.Response) (string, error) {
 func findTokenInScript(script string) (string, error) {
 	// The script assigns an object to the global window object. We are going to parse the script as a JSON
 	// so we need to get rid of the assignment code
-	equalsIndex := strings.Index(script, "=")
-	start := equalsIndex + 1
-	end := len(script) - 1
-	script = script[start:end]
-
 	// Parse the json
 	object := ApiTokenContainer{}
 	if err := json.NewDecoder(strings.NewReader(script)).Decode(&object); err != nil {
