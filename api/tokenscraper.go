@@ -97,7 +97,6 @@ func findTokenInScript(script string) (string, error) {
 	start := equalsIndex + 1
 	end := len(script) - 1
 	script = script[start:end]
-        log.Println("xxxx", script);
 	object := ApiTokenContainer{}
 	if err := json.NewDecoder(strings.NewReader(script)).Decode(&object); err != nil {
 		return "", fmt.Errorf("can't parse the JSON object that contains the at token (%v)", err)
