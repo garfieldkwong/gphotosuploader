@@ -275,10 +275,12 @@ func handleFileChange(event fsnotify.Event, fsWatcher *fsnotify.Watcher) {
 		})
 		timers[event.Name] = timer
 	} else if event.Op == fsnotify.Rename || event.Op == fsnotify.Remove {
-		var file models.File
-		orm.GetInstance().Connection.Where(&models.File{Path: event.Name}).FirstOrCreate(&file)
-		orm.GetInstance().Connection.Unscoped().Delete(&file)
-		fmt.Printf("Deleted record: %s\n", event.Name)
+		if (!checkIgnore(event.Name)) {
+			var file models.File
+			orm.GetInstance().Connection.Where(&models.File{Path: event.Name}).FirstOrCreate(&file)
+			orm.GetInstance().Connection.Unscoped().Delete(&file)
+			fmt.Printf("Deleted record: %s\n", event.Name)
+		}
 	}
 }
 
