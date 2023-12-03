@@ -1,6 +1,5 @@
 
-FROM golang:1.10-alpine3.8
-
+FROM golang:1.21.4-alpine3.18
 
 LABEL AUTHOR=garfieldkwong<garfieldkwong@gmail.com>
 
