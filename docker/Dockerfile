@@ -17,7 +17,7 @@ ENV COOKIES=Please_insert_cookies
 ADD run.sh .
 
 #run go get github.com/muyouming/gphotosuploader
-RUN go get -u github.com/jinzhu/gorm && go get github.com/garfieldkwong/gphotosuploader
+RUN go get -u github.com/jinzhu/gorm && go get gphotosuploader
 
 ENV IGNORE_PATTERN='^.*/\.@__thumb/.*$'
 

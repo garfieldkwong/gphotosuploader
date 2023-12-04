@@ -11,13 +11,14 @@ import (
 	"syscall"
 	"time"
 
+	"gphotosuploader/api"
+	"gphotosuploader/auth"
+	"gphotosuploader/orm"
+	"gphotosuploader/orm/models"
+	"gphotosuploader/utils"
+	"gphotosuploader/version"
+
 	"github.com/fsnotify/fsnotify"
-	"github.com/garfieldkwong/gphotosuploader/api"
-	"github.com/garfieldkwong/gphotosuploader/auth"
-	"github.com/garfieldkwong/gphotosuploader/orm"
-	"github.com/garfieldkwong/gphotosuploader/orm/models"
-	"github.com/garfieldkwong/gphotosuploader/utils"
-	"github.com/garfieldkwong/gphotosuploader/version"
 )
 
 var (
@@ -275,7 +276,7 @@ func handleFileChange(event fsnotify.Event, fsWatcher *fsnotify.Watcher) {
 		})
 		timers[event.Name] = timer
 	} else if event.Op == fsnotify.Rename || event.Op == fsnotify.Remove {
-		if (!checkIgnore(event.Name)) {
+		if !checkIgnore(event.Name) {
 			var file models.File
 			orm.GetInstance().Connection.Where(&models.File{Path: event.Name}).FirstOrCreate(&file)
 			orm.GetInstance().Connection.Unscoped().Delete(&file)

@@ -3,9 +3,11 @@ package orm
 import (
 	"sync"
 
-	"github.com/garfieldkwong/gphotosuploader/orm/models"
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/sqlite"
+	"gphotosuploader/orm/models"
+
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 // The DB type
@@ -21,7 +23,9 @@ func GetInstance() *DB {
 	once.Do(func() {
 		instance = &DB{}
 		var err error
-		instance.Connection, err = gorm.Open("sqlite3", "/db/db.sqlite3?loc=UTC")
+		instance.Connection, err = gorm.Open(sqlite.Open("/db/db.sqlite3?loc=UTC"), &gorm.Config{
+			Logger: logger.Default.LogMode(logger.Info),
+		})
 		if err != nil {
 			panic("failed to connect database")
 		}
@@ -29,8 +33,6 @@ func GetInstance() *DB {
 		if err != nil {
 			panic("failed to connect database")
 		}
-		instance.Connection.LogMode(true)
-
 	})
 
 	return instance

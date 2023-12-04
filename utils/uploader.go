@@ -8,10 +8,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/garfieldkwong/gphotosuploader/api"
-	"github.com/garfieldkwong/gphotosuploader/auth"
-	"github.com/garfieldkwong/gphotosuploader/orm"
-	"github.com/garfieldkwong/gphotosuploader/orm/models"
+	"gphotosuploader/api"
+	"gphotosuploader/auth"
+	"gphotosuploader/orm"
+	"gphotosuploader/orm/models"
 )
 
 // Simple client used to implement the tool that can upload multiple photos or videos at once

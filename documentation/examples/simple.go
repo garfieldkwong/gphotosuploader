@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/garfieldkwong/gphotosuploader/api"
-	"github.com/garfieldkwong/gphotosuploader/auth"
+	"gphotosuploader/api"
+	"gphotosuploader/auth"
 )
 
 // Simple example which consist in the upload of a single image
