@@ -16,7 +16,7 @@ import (
 	"gphotosuploader/auth"
 )
 
-var RegexUploadedImageURL = regexp.MustCompile(`^https://photos.fife.usercontent.google.com/pw//([\w-]+)$`)
+var RegexUploadedImageURL = regexp.MustCompile(`^https://photos\.fife\.usercontent\.google\.com/pw/([\w-]+)$`)
 
 // UploadOptions contains the Upload options
 type UploadOptions struct {
